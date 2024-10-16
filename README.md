@@ -109,7 +109,3 @@ Para quaisquer dúvidas ou sugestões, sinta-se à vontade para entrar em contat
 - **E-mail:** [jhermesn@jorgehermes.me](mailto:jhermesn@jorgehermes.me)
 - **Website:** [https://jorgehermes.me](https://jorgehermes.me)
 - **LinkedIn:** [https://linkedin.com/in/jhermesn](https://linkedin.com/in/jhermesn)
-
----
-
-2024 &copy; [Jorge Hermes](https://jorgehermes.me). Todos os direitos reservados.
