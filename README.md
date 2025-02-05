@@ -110,6 +110,6 @@ SmartEye © 2024 by Jorge Hermes is licensed under a [Creative Commons Attributi
 
 For any questions or suggestions, feel free to reach out:
 
-- **Email:** [jhermesn@jorgehermes.me](mailto:jhermesn@jorgehermes.me)
-- **Website:** [https://jorgehermes.me](https://jorgehermes.me)
+- **Email:** [jorgehermes@jhermesn.dev](mailto:jorgehermes@jhermesn.dev)
+- **Website:** [https://jhermesn.dev](https://jhermesn.dev)
 - **LinkedIn:** [https://linkedin.com/in/jhermesn](https://linkedin.com/in/jhermesn)
