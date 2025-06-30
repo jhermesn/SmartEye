@@ -4,60 +4,48 @@
   <meta charset="UTF-8">
   <title>SmartEye</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Google Fonts para Material Design -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
-  <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <!-- Botão para modificar a chave no canto superior esquerdo -->
   <button id="modifyApiKey" class="icon-button small-icon top-left" title="Modificar Chave">
     <span class="material-icons">vpn_key</span>
   </button>
 
-  <!-- Botão para alternar tema no canto superior direito -->
   <button id="toggleTheme" class="icon-button small-icon top-right" title="Alternar Modo">
     <span class="material-icons">brightness_6</span>
   </button>
 
   <h1>SmartEye</h1>
   
-  <!-- Container de Status -->
   <div id="statusContainer">
     <div id="statusIndicator" class="status-gray">Nenhuma ação</div>
   </div>
 
-  <!-- Campo para Inserir a Chave da OpenAI -->
   <div id="apiKeySection">
-    <label for="openAIApiKey">Chave da OpenAI:</label>
-    <input type="password" id="openAIApiKey" placeholder="Insira sua chave da OpenAI">
+    <label for="geminiApiKey">Chave da API do Gemini:</label>
+    <input type="password" id="geminiApiKey" placeholder="Insira sua chave da API do Gemini">
     <button id="saveApiKey" class="icon-button">
       <span class="material-icons">save</span>
       Salvar Chave
     </button>
   </div>
 
-  <!-- Seção Oculta Inicialmente -->
   <div id="extensionContent" style="display: none;">
-    <!-- Seção de Criação de Resumo -->
     <div id="createSummarySection">
-      <!-- Seleção de Idioma -->
       <label for="summaryLanguage">Idioma do Resumo:</label>
       <select id="summaryLanguage">
         <option value="pt-BR">Português (Brasil)</option>
         <option value="en-US">Inglês (EUA)</option>
         <option value="es-ES">Espanhol (Espanha)</option>
-        <!-- Adicione mais idiomas conforme necessário -->
       </select>
       
-      <!-- Seção de Configuração do Resumo -->
       <div id="summarySettings">
         <label for="summaryDetail">Detalhamento do Resumo:</label>
         <input type="range" id="summaryDetail" min="1" max="3" step="1" value="2">
         <span id="summaryDetailValue">Resumido</span>
       </div>
       
-      <!-- Botões para criar novo resumo ou abrir resumo existente -->
       <button id="createNewSummary" class="icon-button">
         <span class="material-icons">add</span>
         Criar Resumo
@@ -68,17 +56,14 @@
       </button>
     </div>
 
-    <!-- Exibição do Modelo Selecionado -->
     <div id="selectedModelContainer">
       <label>Modelo Selecionado:</label>
       <span id="selectedModel">Nenhum modelo selecionado</span>
     </div>
 
-    <!-- Seletor de Modelo da OpenAI -->
     <label for="modelSelect">Selecione o Modelo:</label>
     <div style="display: flex; align-items: center;">
-      <select id="modelSelect" style="flex: 1; margin-left: 4rem; margin-top: 0.75rem; margin-right: 10px;">
-        <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+      <select id="modelSelect" style="flex: 1; margin-left: 4rem; margin-top: 0.75rem; margin-right: 10px;">  
       </select>
       <button id="refreshModels" class="icon-button small-icon" title="Atualizar Modelos">
         <span class="material-icons">refresh</span>
@@ -86,46 +71,35 @@
     </div>
   </div>
   
-  <!-- Frame Concluído -->
   <div id="completedFrame" style="display: none;">
-    <!-- Container para Falar o Resumo -->
     <div id="voiceSettings">
-      <!-- Seletor de Voz -->
       <label for="voiceSelect">Selecione a Voz:</label>
       <select id="voiceSelect">
-        <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
       </select>
 
-      <!-- Controle de Velocidade -->
       <label for="voiceRate">Velocidade:</label>
       <input type="range" id="voiceRate" min="0.5" max="2" step="0.1" value="1">
       <span id="rateValue">1</span>
 
-      <!-- Controle de Volume -->
       <label for="voiceVolume">Volume:</label>
       <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="1">
       <span id="volumeValue">1</span>
     </div>
 
-    <!-- Botão Falar -->
     <button id="speakSummary" class="icon-button">
       <span class="material-icons">volume_up</span>
       Falar
     </button>
 
-    <!-- Área de Resumo -->
     <div id="summary"></div>
 
-    <!-- Botão Voltar -->
     <button id="backToStart" class="icon-button">
       <span class="material-icons">arrow_back</span>
       Voltar para Criar Resumo
     </button>
   </div>
-  
-  <!-- Créditos -->
   <div id="credits">
-    <a href="https://jorgehermes.me" target="_blank" rel="noopener noreferrer">© Jorge Hermes 2024. Todos os Direitos Reservados.</a>
+    <a href="https://jhermesn.dev" target="_blank" rel="noopener noreferrer">© Jorge Hermes 2024. Todos os Direitos Reservados.</a>
   </div>
   
   <script src="popup.js"></script>

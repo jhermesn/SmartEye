@@ -6,11 +6,11 @@
 
 ## 🛠️ Features
 
-- **Intelligent Summary:** Utilizes the OpenAI API to generate concise summaries of the current page's content.
+- **Intelligent Summary:** Utilizes the Google Gemini API to generate concise summaries of the current page's content.
 - **Text-to-Speech:** Activates voice synthesis to listen to the generated summary.
 - **Customizable Themes:** Switch between light and dark modes based on user preferences.
 - **Summary Management:** Save and manage summaries for future access.
-- **Model Selection:** Choose between different OpenAI models to customize summary generation.
+- **Model Selection:** Choose between different Gemini models to customize summary generation.
 - **Voice Settings:** Adjust the speed and volume of voice synthesis.
 
 ## 📸 Screenshots
@@ -40,22 +40,21 @@
 
 ## 🛠️ Configuration
 
-1. **Get an OpenAI API Key:**
+1. **Get a Google Gemini API Key:**
 
-   - Visit [OpenAI](https://openai.com/) and create an account or log in.
-   - Navigate to the API section and generate a new key.
+   - Visit [Google AI Studio](https://aistudio.google.com/app/apikey) and create an API key.
 
 2. **Enter the API Key:**
 
    - Open the SmartEye extension in the browser.
-   - Enter your OpenAI key in the designated field and click "Save Key."
+   - Enter your Gemini API key in the designated field and click "Save Key."
 
 ## 📖 Usage
 
 1. **Summarize a Page:**
 
    - Click the SmartEye extension icon.
-   - If it's your first time, enter your OpenAI API key.
+   - If it's your first time, enter your Gemini API key.
    - Select the desired language and detail level.
    - Click "Create Summary" to generate a summary of the current page's content.
 
@@ -104,7 +103,7 @@ This project is licensed under the Creative Commons Attribution-NonCommercial-Sh
 
 ## Rights Reserved
 
-SmartEye © 2024 by Jorge Hermes is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+SmartEye © 2025 by Jorge Hermes is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## 📫 Contact
 
