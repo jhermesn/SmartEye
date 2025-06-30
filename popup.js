@@ -1,5 +1,3 @@
-import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
 document.addEventListener('DOMContentLoaded', async () => {
   const dom = {
     apiKeySection: document.getElementById('apiKeySection'),
@@ -26,17 +24,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     modifyApiKeyButton: document.getElementById('modifyApiKey'),
     summaryDetail: document.getElementById('summaryDetail'),
     summaryDetailValue: document.getElementById('summaryDetailValue'),
+    audioPlayer: document.getElementById('audioPlayer'),
+    playPauseButton: document.getElementById('playPauseButton'),
+    stopButton: document.getElementById('stopButton'),
+    progressBar: document.getElementById('progressBar'),
+    currentTime: document.getElementById('currentTime'),
+    totalTime: document.getElementById('totalTime'),
   };
 
   let voices = [];
+  let currentUtterance = null;
+  let isPlaying = false;
+  let isPaused = false;
+  let progressInterval = null;
 
   const updateStatus = (status, message = '') => {
     dom.statusIndicator.className = '';
     const statusConfig = {
       idle: { class: 'status-gray', text: 'Nenhuma ação' },
       working: { class: 'status-yellow', text: 'Trabalhando...' },
-      completed: { class: 'status-green', text: 'Concluído' },
-      error: { class: 'status-red', text: `Erro: ${message}` },
+      completed: { class: 'status-green', text: message || 'Concluído' },
+      error: { class: 'status-red', text: message ? `Erro: ${message}` : 'Erro' },
     };
     const config = statusConfig[status] || statusConfig.idle;
     dom.statusIndicator.classList.add(config.class);
@@ -52,7 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     await chrome.storage.sync.set({ geminiApiKey: apiKey });
   };
 
-  const getSupportedModels = () => ["gemini-1.5-flash", "gemini-pro"];
+  const getSupportedModels = () => [
+    "gemini-1.5-flash", 
+    "gemini-1.5-pro", 
+    "gemini-pro", 
+    "gemini-1.5-flash-8b",
+    "gemini-1.5-pro-002"
+  ];
 
   const populateModelOptions = () => {
     const models = getSupportedModels();
@@ -115,25 +129,126 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   };
 
-  const speakSummary = () => {
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const updateProgress = () => {
+    if (!currentUtterance || !isPlaying) return;
+    
+    const elapsed = Date.now() - currentUtterance.startTime;
+    const progress = Math.min((elapsed / currentUtterance.estimatedDuration) * 100, 100);
+    
+    dom.progressBar.value = progress;
+    dom.currentTime.textContent = formatTime(elapsed / 1000);
+  };
+
+  const startProgressTracking = () => {
+    if (progressInterval) clearInterval(progressInterval);
+    progressInterval = setInterval(updateProgress, 100);
+  };
+
+  const stopProgressTracking = () => {
+    if (progressInterval) {
+      clearInterval(progressInterval);
+      progressInterval = null;
+    }
+  };
+
+  const initializePlayer = () => {
     const text = dom.summaryDiv.textContent;
     if (!text) return;
-    const utterance = new SpeechSynthesisUtterance(text);
+
+    // Para a reprodução atual se houver
+    speechSynthesis.cancel();
+    
+    currentUtterance = new SpeechSynthesisUtterance(text);
     const selectedVoice = voices.find(v => v.name === dom.voiceSelect.value);
     if (selectedVoice) {
-      utterance.voice = selectedVoice;
+      currentUtterance.voice = selectedVoice;
     }
-    utterance.rate = parseFloat(dom.voiceRate.value);
-    utterance.volume = parseFloat(dom.voiceVolume.value);
-    speechSynthesis.speak(utterance);
+    
+    currentUtterance.rate = parseFloat(dom.voiceRate.value);
+    currentUtterance.volume = parseFloat(dom.voiceVolume.value);
+    
+    // Estima duração baseada no texto e velocidade
+    const wordsPerMinute = 150 * currentUtterance.rate;
+    const wordCount = text.split(' ').length;
+    const estimatedDuration = (wordCount / wordsPerMinute) * 60 * 1000;
+    currentUtterance.estimatedDuration = estimatedDuration;
+    
+    dom.totalTime.textContent = formatTime(estimatedDuration / 1000);
+    dom.progressBar.value = 0;
+    dom.currentTime.textContent = formatTime(0);
+
+    currentUtterance.onstart = () => {
+      currentUtterance.startTime = Date.now();
+      isPlaying = true;
+      isPaused = false;
+      dom.playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+      startProgressTracking();
+    };
+
+    currentUtterance.onend = () => {
+      isPlaying = false;
+      isPaused = false;
+      dom.playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+      dom.progressBar.value = 100;
+      stopProgressTracking();
+    };
+
+    currentUtterance.onpause = () => {
+      isPaused = true;
+      dom.playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+      stopProgressTracking();
+    };
+
+    currentUtterance.onresume = () => {
+      isPaused = false;
+      dom.playPauseButton.innerHTML = '<span class="material-icons">pause</span>';
+      startProgressTracking();
+    };
+  };
+
+  const togglePlayPause = () => {
+    if (!currentUtterance) {
+      initializePlayer();
+    }
+
+    if (isPlaying && !isPaused) {
+      speechSynthesis.pause();
+    } else if (isPaused) {
+      speechSynthesis.resume();
+    } else {
+      speechSynthesis.speak(currentUtterance);
+    }
+  };
+
+  const stopAudio = () => {
+    speechSynthesis.cancel();
+    isPlaying = false;
+    isPaused = false;
+    dom.playPauseButton.innerHTML = '<span class="material-icons">play_arrow</span>';
+    dom.progressBar.value = 0;
+    dom.currentTime.textContent = formatTime(0);
+    stopProgressTracking();
+  };
+
+  const seekToPosition = (percentage) => {
+    if (!currentUtterance) return;
+ 
+    stopAudio();
+    setTimeout(() => {
+      initializePlayer();
+      dom.progressBar.value = percentage;
+    }, 100);
   };
 
   const summarizeText = async (text, model, language, detailLevel) => {
     const apiKey = await getApiKey();
     if (!apiKey) throw new Error('Chave da API do Gemini não configurada.');
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const geminiModel = genAI.getGenerativeModel({ model });
 
     const langMap = {
       'pt-BR': { lang: 'português (Brasil)', tpl: 'Resuma o texto a seguir em', detail: { 1: 'uma frase', 2: 'um parágrafo', 3: 'detalhadamente' } },
@@ -144,10 +259,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prompt = `${tpl} ${detail[detailLevel]} em ${lang}:\n\n${text}`;
 
     try {
-      const result = await geminiModel.generateContent(prompt);
-      return result.response.text();
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }]
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Erro da API: ${errorData.error?.message || 'Erro desconhecido'}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+        throw new Error('Resposta inválida da API do Gemini.');
+      }
+
+      return data.candidates[0].content.parts[0].text;
     } catch (error) {
-      throw new Error('Falha na comunicação com a API do Gemini.');
+      if (error.message.includes('API_KEY_INVALID')) {
+        throw new Error('Chave da API inválida.');
+      }
+      throw new Error(`Falha na comunicação com a API do Gemini: ${error.message}`);
     }
   };
 
@@ -163,9 +305,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (dom[view]) dom[view].style.display = 'block';
   };
 
-  const initialize = async () => {
-    const apiKey = await getApiKey();
-    if (apiKey) {
+  const initialize = async (apiKey) => {
+    const key = apiKey || await getApiKey();
+    if (key) {
       showView('extensionContent');
       populateModelOptions();
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -183,22 +325,46 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   dom.saveApiKeyButton.addEventListener('click', async () => {
-    const apiKey = dom.geminiApiKeyInput.value.trim();
-    if (!apiKey) {
-      alert('Por favor, insira uma chave da API do Gemini válida.');
-      return;
+    try {
+      const apiKey = dom.geminiApiKeyInput.value.trim();
+      
+      if (!apiKey) {
+        alert('Por favor, insira uma chave da API do Gemini válida.');
+        updateStatus('error', 'Chave da API vazia');
+        return;
+      }
+
+      updateStatus('working');
+      
+      dom.saveApiKeyButton.disabled = true;
+      
+      await saveApiKey(apiKey);
+      
+      const savedKey = await getApiKey();
+      if (savedKey !== apiKey) {
+        throw new Error('Falha ao salvar a chave da API');
+      }
+      
+      await initialize(apiKey);
+      updateStatus('completed', 'Chave salva com sucesso');
+      
+      setTimeout(() => {
+        updateStatus('idle');
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Erro ao salvar chave da API:', error);
+      updateStatus('error', error.message || 'Erro desconhecido');
+      alert(`Erro ao salvar chave: ${error.message || 'Erro desconhecido'}`);
+    } finally {
+      dom.saveApiKeyButton.disabled = false;
     }
-    updateStatus('working');
-    await saveApiKey(apiKey);
-    await initialize();
-    updateStatus('idle');
   });
 
   dom.modifyApiKeyButton.addEventListener('click', () => showView('apiKeySection'));
   dom.refreshModelsButton.addEventListener('click', populateModelOptions);
 
   dom.createNewSummaryButton.addEventListener('click', async () => {
-    showView('completedFrame');
     updateStatus('working');
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -213,12 +379,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       const detailLevel = parseInt(dom.summaryDetail.value, 10);
       const summary = await summarizeText(response.text, model, language, detailLevel);
       
+      showView('completedFrame');
       dom.summaryDiv.textContent = summary;
       await saveSummary(tab.url, summary);
       updateStatus('completed');
+      
+      stopAudio();
+      dom.audioPlayer.style.display = 'none';
+      dom.speakSummaryButton.innerHTML = '<span class="material-icons">volume_up</span>Iniciar Player de Áudio';
+      currentUtterance = null;
     } catch (error) {
       updateStatus('error', error.message);
-      if (error.message.includes('API do Gemini')) showView('apiKeySection');
+      if (error.message.includes('API') || error.message.includes('Chave')) {
+        showView('apiKeySection');
+      }
     }
   });
 
@@ -232,12 +406,56 @@ document.addEventListener('DOMContentLoaded', async () => {
       dom.summaryDiv.textContent = summary;
       showView('completedFrame');
       updateStatus('completed');
+      
+      stopAudio();
+      dom.audioPlayer.style.display = 'none';
+      dom.speakSummaryButton.innerHTML = '<span class="material-icons">volume_up</span>Iniciar Player de Áudio';
+      currentUtterance = null;
     }
   });
 
-  dom.speakSummaryButton.addEventListener('click', speakSummary);
-  dom.voiceRate.addEventListener('input', () => dom.rateValue.textContent = dom.voiceRate.value);
-  dom.voiceVolume.addEventListener('input', () => dom.volumeValue.textContent = dom.voiceVolume.value);
+  dom.speakSummaryButton.addEventListener('click', () => {
+    const isPlayerVisible = dom.audioPlayer.style.display !== 'none';
+    if (isPlayerVisible) {
+      dom.audioPlayer.style.display = 'none';
+      dom.speakSummaryButton.innerHTML = '<span class="material-icons">volume_up</span>Iniciar Player de Áudio';
+      stopAudio();
+    } else {
+      dom.audioPlayer.style.display = 'block';
+      dom.speakSummaryButton.innerHTML = '<span class="material-icons">volume_off</span>Fechar Player de Áudio';
+      initializePlayer();
+    }
+  });
+
+  dom.playPauseButton.addEventListener('click', togglePlayPause);
+  dom.stopButton.addEventListener('click', stopAudio);
+  
+  dom.progressBar.addEventListener('input', () => {
+    const percentage = parseFloat(dom.progressBar.value);
+    if (currentUtterance && !isPlaying) {
+      seekToPosition(percentage);
+    }
+  });
+
+  dom.voiceRate.addEventListener('input', () => {
+    dom.rateValue.textContent = dom.voiceRate.value;
+    if (currentUtterance) {
+      currentUtterance.rate = parseFloat(dom.voiceRate.value);
+      const text = dom.summaryDiv.textContent;
+      const wordsPerMinute = 150 * currentUtterance.rate;
+      const wordCount = text.split(' ').length;
+      const estimatedDuration = (wordCount / wordsPerMinute) * 60 * 1000;
+      currentUtterance.estimatedDuration = estimatedDuration;
+      dom.totalTime.textContent = formatTime(estimatedDuration / 1000);
+    }
+  });
+
+  dom.voiceVolume.addEventListener('input', () => {
+    dom.volumeValue.textContent = dom.voiceVolume.value;
+    if (currentUtterance) {
+      currentUtterance.volume = parseFloat(dom.voiceVolume.value);
+    }
+  });
   dom.summaryLanguageSelect.addEventListener('change', () => populateVoices(dom.summaryLanguageSelect.value));
   dom.summaryDetail.addEventListener('input', updateSummaryDetailValue);
   
@@ -245,6 +463,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     showView('extensionContent');
     dom.summaryDiv.textContent = '';
     updateStatus('idle');
+    
+    stopAudio();
+    dom.audioPlayer.style.display = 'none';
+    dom.speakSummaryButton.innerHTML = '<span class="material-icons">volume_up</span>Iniciar Player de Áudio';
+    currentUtterance = null;
   });
 
   dom.toggleThemeButton.addEventListener('click', () => {

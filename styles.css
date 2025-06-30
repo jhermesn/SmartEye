@@ -1,375 +1,401 @@
-/* Variáveis de Tema */
 :root {
-  /* Tema Escuro */
-  --background-color: #000000; /* Cor de fundo */
-  --surface-color: #1E1E1E; /* Cor das superfícies */
-  --primary-color: #6A0DAD; /* Roxo - cor primária */
-  --on-primary-color: #FFFFFF; /* Cor do texto sobre a cor primária */
-  --secondary-color: #BB86FC; /* Roxo Claro - cor secundária */
-  --on-secondary-color: #FFFFFF; /* Cor do texto sobre a cor secundária */
-  --error-color: #CF6679; /* Cor de erro */
-  --on-error-color: #000000; /* Cor do texto sobre a cor de erro */
-  --text-color: #FFFFFF; /* Cor do texto principal */
-  --text-secondary-color: #B0B0B0; /* Cor do texto secundário */
-  --border-color: #333333; /* Cor das bordas */
-  --button-hover-color: #2C2C2C; /* Cor de fundo ao passar o mouse nos botões */
-  --credits-color: rgba(255, 255, 255, 0.1); /* Cor dos créditos */
+  --background-color: #000000;
+  --surface-color: #1E1E1E;
+  --primary-color: #6A0DAD;
+  --on-primary-color: #FFFFFF;
+  --secondary-color: #BB86FC;
+  --on-secondary-color: #FFFFFF;
+  --error-color: #CF6679;
+  --on-error-color: #000000;
+  --text-color: #FFFFFF;
+  --text-secondary-color: #B0B0B0;
+  --border-color: #333333;
+  --button-hover-color: #2C2C2C;
+  --credits-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Tema Claro */
 :root.light {
-  --background-color: #FFFFFF; /* Cor de fundo clara */
-  --surface-color: #F5F5F5; /* Cor das superfícies clara */
-  --primary-color: #FF0000; /* Vermelho - cor primária clara */
-  --on-primary-color: #FFFFFF; /* Cor do texto sobre a cor primária clara */
-  --secondary-color: #FFC0CB; /* Rosa Claro - cor secundária clara */
-  --on-secondary-color: #000000; /* Cor do texto sobre a cor secundária clara */
-  --error-color: #B00020; /* Cor de erro clara */
-  --on-error-color: #FFFFFF; /* Cor do texto sobre a cor de erro clara */
-  --text-color: #000000; /* Cor do texto principal clara */
-  --text-secondary-color: #555555; /* Cor do texto secundário clara */
-  --border-color: #CCCCCC; /* Cor das bordas clara */
-  --button-hover-color: #bbbbbb; /* Cor de fundo ao passar o mouse nos botões claros */
-  --credits-color: rgba(0, 0, 0, 0.1); /* Cor dos créditos clara */
+  --background-color: #FFFFFF;
+  --surface-color: #F5F5F5;
+  --primary-color: #FF0000;
+  --error-color: #B00020;
+  --on-error-color: #FFFFFF;
+  --text-color: #000000;
+  --text-secondary-color: #555555;
+  --border-color: #CCCCCC;
+  --button-hover-color: #bbbbbb;
+  --credits-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Reset Básico */
 * {
-  box-sizing: border-box; /* Define o box-sizing para borda e padding */
-  margin: 0; /* Remove margens padrão */
-  padding: 0; /* Remove paddings padrão */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Corpo da Extensão */
 body {
-  display: flex; /* Exibe os elementos em flexbox */
-  flex-direction: column; /* Orientação vertical */
-  gap: 15px; /* Espaçamento entre elementos */
-  width: 360px; /* Largura fixa do popup */
-  font-family: 'Roboto', sans-serif; /* Fonte padrão */
-  padding: 20px; /* Padding interno */
-  background-color: var(--background-color); /* Aplica a cor de fundo baseada no tema */
-  color: var(--text-color); /* Aplica a cor do texto principal */
-  position: relative; /* Para posicionar elementos absolutos dentro */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 360px;
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  position: relative;
 }
 
-/* Título */
 h1 {
-  font-size: 26px; /* Tamanho da fonte */
-  margin-bottom: 15px; /* Margem inferior */
-  color: var(--primary-color); /* Cor baseada no tema */
-  text-align: center; /* Centraliza o texto */
+  font-size: 26px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  text-align: center;
 }
 
-/* Container de Status */
 #statusContainer {
-  text-align: center; /* Centraliza o conteúdo */
-  margin-bottom: 10px; /* Margem inferior */
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-/* Classes de Status */
 .status-gray,
 .status-yellow,
 .status-green,
 .status-red {
-  padding: 6px 12px; /* Padding interno */
-  border-radius: 4px; /* Bordas arredondadas */
-  color: #FFFFFF; /* Cor do texto */
-  font-weight: bold; /* Texto em negrito */
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-weight: bold;
 }
 
 .status-gray {
-  background-color: #808080; /* Fundo cinza */
+  background-color: #808080;
 }
 
 .status-yellow {
-  background-color: #FFD700; /* Fundo amarelo */
-  color: #000000; /* Texto preto */
+  background-color: #FFD700;
+  color: #000000;
 }
 
 .status-green {
-  background-color: #32CD32; /* Fundo verde */
+  background-color: #32CD32;
 }
 
 .status-red {
-  background-color: #FF4500; /* Fundo vermelho */
+  background-color: #FF4500;
 }
 
-/* Botões */
 button {
-  width: 100%; /* Largura total */
-  padding: 12px; /* Padding interno */
-  background-color: var(--secondary-color); /* Cor de fundo baseada no tema */
-  color: var(--on-secondary-color); /* Cor do texto baseada no tema */
-  border: none; /* Remove bordas */
-  border-radius: 8px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor em forma de mão */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições de hover */
-  text-align: center; /* Centraliza o texto */
-  font-size: 16px; /* Tamanho da fonte */
+  width: 100%;
+  padding: 12px;
+  background-color: var(--secondary-color);
+  color: var(--on-secondary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  font-size: 16px;
 }
 
 button:hover {
-  background-color: var(--button-hover-color); /* Altera a cor de fundo no hover */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona sombra no hover */
+  background-color: var(--button-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Botões com Classe `.icon-button` */
 .icon-button {
-  display: flex; /* Exibe os itens em flexbox */
-  align-items: center; /* Alinha verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  gap: 10px; /* Espaçamento entre ícones e texto */
-  padding: 12px; /* Padding interno */
-  background-color: var(--secondary-color); /* Cor de fundo baseada no tema */
-  color: var(--on-secondary-color); /* Cor do texto baseada no tema */
-  border: none; /* Remove bordas */
-  border-radius: 8px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor em forma de mão */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições de hover */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  background-color: var(--secondary-color);
+  color: var(--on-secondary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .icon-button:hover {
-  background-color: var(--button-hover-color); /* Altera a cor de fundo no hover */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona sombra no hover */
+  background-color: var(--button-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .icon-button .material-icons {
-  font-size: 24px; /* Tamanho do ícone */
+  font-size: 24px;
 }
 
-/* Small Icon Buttons */
 .small-icon {
-  width: 36px; /* Largura fixa */
-  height: 36px; /* Altura fixa */
-  padding: 0; /* Remove padding */
-  background: none; /* Remove fundo */
-  border: none; /* Remove bordas */
-  color: var(--text-color); /* Cor do ícone baseada no tema */
-  cursor: pointer; /* Cursor em forma de mão */
-  position: absolute; /* Posiciona absolutamente dentro do body */
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  position: absolute;
 }
 
 .small-icon .material-icons {
-  font-size: 24px; /* Tamanho do ícone */
+  font-size: 24px;
 }
 
 .top-left {
-  top: 10px; /* Posiciona 10px do topo */
-  left: 10px; /* Posiciona 10px da esquerda */
+  top: 10px;
+  left: 10px;
 }
 
 .top-right {
-  top: 10px; /* Posiciona 10px do topo */
-  right: 10px; /* Posiciona 10px da direita */
+  top: 10px;
+  right: 10px;
 }
 
-/* Labels */
 label {
-  display: block; /* Exibe como bloco */
-  margin: 12px 0 6px; /* Margem superior e inferior */
-  font-size: 15px; /* Tamanho da fonte */
-  color: var(--text-color); /* Cor do texto baseada no tema */
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 15px;
+  color: var(--text-color);
 }
 
-/* Inputs, Selects e Ranges */
 input[type="password"],
 input[type="range"],
 select {
-  width: 100%; /* Largura total */
-  padding: 10px; /* Padding interno */
-  margin-bottom: 12px; /* Margem inferior */
-  border: 1px solid var(--border-color); /* Borda baseada no tema */
-  border-radius: 4px; /* Bordas arredondadas */
-  background-color: var(--surface-color); /* Cor de fundo baseada no tema */
-  color: var(--text-color); /* Cor do texto baseada no tema */
-  font-size: 15px; /* Tamanho da fonte */
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-size: 15px;
 }
 
 input[type="range"] {
-  -webkit-appearance: none; /* Remove estilo padrão no Webkit */
-  height: 6px; /* Altura da barra */
-  border-radius: 3px; /* Bordas arredondadas */
-  background: #1c1c1c; /* Cor de fundo no modo escuro */
-  outline: none; /* Remove outline */
-  margin: 12px 0; /* Margem superior e inferior */
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #1c1c1c;
+  outline: none;
+  margin: 12px 0;
 }
 
 :root.light input[type="range"] {
-  background: #f5f5f5; /* Cor de fundo no modo claro */
+  background: #f5f5f5;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Remove estilo padrão do thumb */
-  appearance: none; /* Remove estilo padrão */
-  width: 18px; /* Largura do thumb */
-  height: 18px; /* Altura do thumb */
-  border-radius: 50%; /* Thumb circular */
-  background: var(--primary-color); /* Cor do thumb baseada no tema */
-  cursor: pointer; /* Cursor em forma de mão */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 18px; /* Largura do thumb */
-  height: 18px; /* Altura do thumb */
-  border-radius: 50%; /* Thumb circular */
-  background: var(--primary-color); /* Cor do thumb baseada no tema */
-  cursor: pointer; /* Cursor em forma de mão */
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
 }
 
-/* Texto ao lado dos Sliders */
 #rateValue,
 #volumeValue,
 #summaryDetailValue {
-  display: block; /* Exibe como bloco */
-  text-align: center; /* Centraliza o texto */
-  margin-top: 4px; /* Margem superior */
-  color: var(--text-secondary-color); /* Cor do texto baseada no tema */
-  font-size: 14px; /* Tamanho da fonte */
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  color: var(--text-secondary-color);
+  font-size: 14px;
 }
 
-/* Área de Resumo */
 #summary {
-  margin-top: 12px; /* Margem superior */
-  white-space: pre-wrap; /* Preserva quebras de linha */
-  max-height: 250px; /* Altura máxima */
-  overflow-y: auto; /* Scroll vertical automático */
-  border: 1px solid var(--border-color); /* Borda baseada no tema */
-  padding: 12px; /* Padding interno */
-  background-color: var(--surface-color); /* Cor de fundo baseada no tema */
-  color: var(--text-color); /* Cor do texto baseada no tema */
-  border-radius: 4px; /* Bordas arredondadas */
-  font-size: 15px; /* Tamanho da fonte */
+  margin-top: 12px;
+  white-space: pre-wrap;
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  font-size: 15px;
 }
 
-/* Seção Controlos (TTS e Salvar) */
 #controlsSection {
-  margin-top: 12px; /* Margem superior */
+  margin-top: 12px;
 }
 
-/* Estilos adicionais para botões na seção de resumo existente */
 #completedFrame button {
-  width: 100%; /* Largura total */
-  margin-top: 10px; /* Margem superior */
+  width: 100%;
+  margin-top: 10px;
 }
 
-/* Ajustes para a seção de criação de resumo */
 #createSummarySection select,
 #summarySettings select,
 #summarySettings input[type="range"] {
-  margin-top: 6px; /* Margem superior */
+  margin-top: 6px;
 }
 
-/* Botões de Criação e Abertura de Resumos */
 #createNewSummary,
 #openExistingSummary,
 #saveApiKey {
-  width: 100%; /* Largura total */
-  padding: 12px; /* Padding interno */
-  margin-top: 12px; /* Margem superior */
-  background-color: var(--primary-color); /* Cor de fundo baseada no tema */
-  color: var(--on-primary-color); /* Cor do texto baseada no tema */
-  border: none; /* Remove bordas */
-  border-radius: 8px; /* Bordas arredondadas */
-  font-size: 16px; /* Tamanho da fonte */
-  cursor: pointer; /* Cursor em forma de mão */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições de hover */
+  width: 100%;
+  color: var(--on-primary-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #createNewSummary:hover,
 #openExistingSummary:hover,
 #saveApiKey:hover {
-  background-color: var(--button-hover-color); /* Altera a cor de fundo no hover */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona sombra no hover */
+  background-color: var(--button-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Botões Falar e Voltar com Estilo Igual aos Botões de Criação */
 #speakSummary,
 #backToStart {
-  width: 100%; /* Largura total */
-  padding: 12px; /* Padding interno */
-  background-color: var(--primary-color); /* Cor de fundo baseada no tema */
-  color: var(--on-primary-color); /* Cor do texto baseada no tema */
-  border: none; /* Remove bordas */
-  border-radius: 8px; /* Bordas arredondadas */
-  font-size: 16px; /* Tamanho da fonte */
-  cursor: pointer; /* Cursor em forma de mão */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições de hover */
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #speakSummary:hover,
 #backToStart:hover {
-  background-color: var(--button-hover-color); /* Altera a cor de fundo no hover */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adiciona sombra no hover */
+  background-color: var(--button-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Créditos */
 #credits {
-  text-align: center; /* Centraliza o conteúdo */
-  font-size: 12px; /* Tamanho da fonte */
-  color: var(--text-secondary-color); /* Cor do texto secundário baseada no tema */
-  margin-top: 10px; /* Margem superior */
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary-color);
+  margin-top: 10px;
 }
 
 #credits a {
-  color: var(--primary-color); /* Cor do link baseada no tema */
-  text-decoration: none; /* Remove sublinhado */
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
 #credits a:hover {
-  text-decoration: underline; /* Adiciona sublinhado no hover */
+  text-decoration: underline;
 }
 
-/* Seletor de Modelo da OpenAI */
 label[for="modelSelect"] {
-  display: block; /* Exibe como bloco */
-  margin-bottom: 6px; /* Margem inferior */
-  font-size: 15px; /* Tamanho da fonte */
-  color: var(--text-color); /* Cor do texto baseada no tema */
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: var(--text-color);
 }
 
 #modelSelect {
-  flex: 1; /* Flexibilidade para ocupar o espaço disponível */
-  margin-left: 4rem; /* Margem à esquerda */
-  margin-top: 0.75rem; /* Margem superior */
-  margin-right: 10px; /* Margem à direita */
-  padding: 10px; /* Padding interno */
-  border: 1px solid var(--border-color); /* Borda baseada no tema */
-  border-radius: 4px; /* Bordas arredondadas */
-  background-color: var(--surface-color); /* Cor de fundo baseada no tema */
-  color: var(--text-color); /* Cor do texto baseada no tema */
-  font-size: 15px; /* Tamanho da fonte */
+  flex: 1;
+  margin-left: 4rem;
+  margin-top: 0.75rem;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-size: 15px;
 }
 
-/* Botão de Atualizar Modelos */
 #refreshModels {
-  width: 40px; /* Largura fixa */
-  height: 40px; /* Altura fixa */
-  margin-left: 10px; /* Margem à esquerda */
-  display: flex; /* Exibe os itens em flexbox */
-  align-items: center; /* Alinha verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  /* Removido position: absolute; conforme comentário */
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Seção de Configuração do Resumo */
 #summarySettings {
-  margin-top: 12px; /* Margem superior */
+  margin-top: 12px;
 }
 
 #summarySettings label {
-  font-size: 15px; /* Tamanho da fonte */
-  margin-bottom: 6px; /* Margem inferior */
-  color: var(--text-color); /* Cor do texto baseada no tema */
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: var(--text-color);
 }
 
 #summaryDetail {
-  width: 100%; /* Largura total */
-  margin-bottom: 6px; /* Margem inferior */
+  width: 100%;
+  margin-bottom: 6px;
 }
 
-/* Botões Falar e Voltar */
-#speakSummary,
-#backToStart {
-  /* Herda estilos das regras anteriores */
+button:disabled,
+.icon-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--border-color) !important;
+}
+
+button:hover:disabled,
+.icon-button:hover:disabled {
+  box-shadow: none !important;
+}
+
+#audioPlayer {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+#playerControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.small-player-btn {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background-color: var(--primary-color) !important;
+  color: var(--on-primary-color) !important;
+}
+
+.small-player-btn .material-icons {
+  font-size: 20px;
+}
+
+#progressContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+#progressBar {
+  flex: 1;
+  height: 4px;
+  margin: 0;
+}
+
+#currentTime,
+#totalTime {
+  font-size: 12px;
+  color: var(--text-secondary-color);
+  min-width: 35px;
+  text-align: center;
 }

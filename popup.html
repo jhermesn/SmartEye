@@ -86,9 +86,25 @@
       <span id="volumeValue">1</span>
     </div>
 
+    <div id="audioPlayer" style="display: none;">
+      <div id="playerControls">
+        <button id="playPauseButton" class="icon-button small-player-btn">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <button id="stopButton" class="icon-button small-player-btn">
+          <span class="material-icons">stop</span>
+        </button>
+        <div id="progressContainer">
+          <span id="currentTime">0:00</span>
+          <input type="range" id="progressBar" min="0" max="100" value="0" step="1">
+          <span id="totalTime">0:00</span>
+        </div>
+      </div>
+    </div>
+
     <button id="speakSummary" class="icon-button">
       <span class="material-icons">volume_up</span>
-      Falar
+      Iniciar Player de Áudio
     </button>
 
     <div id="summary"></div>
